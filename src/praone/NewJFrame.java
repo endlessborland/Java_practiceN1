@@ -39,7 +39,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private int guessNumber;
     //fith task
     private FPart blank; 
-    
+    // last task
+    boolean selField = false;
     /**
      * Creates new form NewJFrame
      */
@@ -654,13 +655,13 @@ public class NewJFrame extends javax.swing.JFrame {
 
         JogaTable7.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {"X", "X", "O", "O", "O", "X", "X"},
+                {"X", "X", "O", "O", "O", "X", "X"},
+                {"O", "O", "O", "O", "O", "O", "O"},
+                {"O", "O", "O", null, "O", "O", "O"},
+                {"O", "O", "O", "O", "O", "O", "O"},
+                {"X", "X", "O", "O", "O", "X", "X"},
+                {"X", "X", "O", "O", "O", "X", "X"}
             },
             new String [] {
                 "null", "null", "null", "null", "null", "null", "null"
@@ -670,7 +671,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -683,9 +684,16 @@ public class NewJFrame extends javax.swing.JFrame {
         });
         JogaTable7.setRowHeight(70);
         JogaTable7.setRowSelectionAllowed(false);
+        JogaTable7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JogaTable7MouseClicked(evt);
+            }
+        });
         jScrollPane9.setViewportView(JogaTable7);
         JogaTable7.getTableHeader().setVisible(false);
         JogaTable7.setShowGrid(true);
+
+        JogaTable7.setValueAt("", 3, 3);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -960,6 +968,37 @@ public class NewJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Игра окончена!");
         }
     }//GEN-LAST:event_Task6TableMouseClicked
+
+    private JogaF element;
+    
+    private void JogaTable7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JogaTable7MouseClicked
+        if (selField)
+        {
+            element.Move(this.JogaTable7.getSelectedRow(), this.JogaTable7.getSelectedColumn());
+        } else
+        {
+            element = new JogaF(this.JogaTable7.getSelectedRow(), this.JogaTable7.getSelectedColumn(), this.JogaTable7);
+        }
+        selField = !selField;
+        if (isJogaIt())
+        {
+            JOptionPane.showMessageDialog(rootPane, "Игра окончена!");
+        }
+    }//GEN-LAST:event_JogaTable7MouseClicked
+    
+    private boolean isJogaIt()
+    {
+        int c = 0;
+        for (int i = 0; i < 7; i++)
+            for (int j = 0; j < 7; j++)
+            {
+                if (this.JogaTable7.getValueAt(i,j).toString() == "O")
+                    c++;
+            }
+        if (c == 1)
+            return true;
+        return false;
+    }
     
     private boolean isGameFinished()
     {
