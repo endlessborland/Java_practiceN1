@@ -1002,7 +1002,7 @@ public class NewJFrame extends javax.swing.JFrame {
     
     private boolean isGameFinished()
     {
-        if (((Integer) Task6Table.getValueAt(0, 0) == 1) &&
+        try {if (((Integer) Task6Table.getValueAt(0, 0) == 1) &&
                 (Integer) Task6Table.getValueAt(0, 1) == 2 &&
                 (Integer) Task6Table.getValueAt(0, 2) == 3 &&
                 (Integer) Task6Table.getValueAt(0, 3) == 4 &&
@@ -1018,12 +1018,19 @@ public class NewJFrame extends javax.swing.JFrame {
                 (Integer) Task6Table.getValueAt(3, 1) == 14 &&
                 (Integer) Task6Table.getValueAt(3, 2) == 15)
             return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
         return false;
                 
     }
     
     private boolean trueMove(int row, int column)
     {
+        if (jTable1.getValueAt(row, column).toString() != "")
+            return false;
         if (row == fTlastRow + 1 && column == fTlastCol + 2)
             return true;
         if (row == fTlastRow + 1 && column == fTlastCol - 2)
